@@ -7,11 +7,11 @@ function forward!(layer::Conv2d, input::Array{Float32, 4})::Array{Float32, 4}
     batch_size, _, input_height, input_width = size(input)
 
     # stride check / auto padding handling
-    output_height_pre_stride = (input_height + 2 * padding - kernel_height)
-    output_width_pre_stride = (input_width + 2 * padding - kernel_width)
+    output_height_pre_stride = (input_height + 2 * layer.padding.padding - kernel_height)
+    output_width_pre_stride = (input_width + 2 * layer.padding.padding - kernel_width)
 
-    output_height_stride_error = output_height_pre_stride % stride
-    output_width_stride_error = output_width_pre_stride % stride
+    output_height_stride_error = output_height_pre_stride % layer.stride
+    output_width_stride_error = output_width_pre_stride % layer.stride
 
     if (output_height_stride_error != 0)
         error = floor(Int, output_height_stride_error / 2)
@@ -24,9 +24,11 @@ function forward!(layer::Conv2d, input::Array{Float32, 4})::Array{Float32, 4}
         layer.padding.right = output_width_stride_error - error
     end
 
-    output_height = output_height_pre_stride / stride
-    output_width = output_width_pre_stride / stride
+    output_height = div(output_height_pre_stride, layer.stride)
+    output_width = div(output_width_pre_stride, layer.stride)
     # end stride check
+
+    @assert output_height >= 1 && output_width >= 1 "Output dimensions must be bigger than 1!"
 
     conv = zeros(batch_size, out_channel_size, output_height, output_width)
     for batch in 1:batch_size
@@ -50,7 +52,7 @@ end
 
 
 function convolution(input::Matrix{Float32}, kernel::Matrix{Float32}, padding::Padding, stride::Int, output_shape::Tuple{Int, Int})::Matrix{Float32}
-    padded_input = padding(input, padding)
+    padded_input = apply_padding(input, padding)
     output_height, output_width = output_shape
     kernel_height, kernel_width = size(kernel)
 
@@ -68,7 +70,8 @@ function convolution(input::Matrix{Float32}, kernel::Matrix{Float32}, padding::P
     return output
 end
 
-function padding(input::Matrix{Float32}, padding::Padding)::Matrix{Float32}
+
+function apply_padding(input::Matrix{Float32}, padding::Padding)::Matrix{Float32}
     input_height, input_width = size(input)
     output_height = input_height + (2 * padding.padding) + padding.top + padding.bottom
     output_width = input_width + (2 * padding.padding) + padding.left + padding.right

@@ -24,6 +24,8 @@ mutable struct Conv2d
 
     function Conv2d(kernel::Array{Float32, 4}, bias::Vector{Float32}, padding::Int, stride::Int, activation::Activation, optim::Optim)::Conv2d
 
+        @assert stride >= 1 "Stride must be at least 1!"
+
         k_shape = size(kernel)
         b_shape = size(bias)
         grad_kernel = zeros(k_shape)
