@@ -1,0 +1,10 @@
+name = "cnn"
+uuid = "86cc64e8-f601-432c-a6b0-81cd00fc8175"
+authors = ["OfflineBot <flintstonelg@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+
+[compat]
+Distributions = "0.25.120"
