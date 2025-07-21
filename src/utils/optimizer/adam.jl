@@ -30,4 +30,11 @@ mutable struct Adam{TW, TB} <: Optim
 
 end
 
+function update!(_::DenseLayer, _::Adam)
+    error("Adam not implemented yet!")
+end
+
+function update!(_::Conv2d, _::Adam)
+    error("Adam not implemented yet!")
+end
 
