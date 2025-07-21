@@ -47,7 +47,7 @@ function forward!(layer::Conv2d, input::Array{Float32, 4})::Array{Float32, 4}
     end
     layer.z = conv
     layer.a = layer.activation.activation(conv)
-    return conv
+    conv
 end
 
 
@@ -67,7 +67,7 @@ function convolution(input::Matrix{Float32}, kernel::Matrix{Float32}, padding::P
         end
     end
 
-    return output
+    output
 end
 
 
@@ -83,6 +83,6 @@ function apply_padding(input::Matrix{Float32}, padding::Padding)::Matrix{Float32
     col_start = padding.padding + padding.left + 1
     col_end = padding.padding + padding.left + input_width
     output[row_start:row_end, col_start:col_end] .= input
-    return output
+    output
 end
 

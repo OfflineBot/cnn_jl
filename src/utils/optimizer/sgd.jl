@@ -3,6 +3,10 @@
 struct SGD <: Optim
     # Learning Rate
     lr::Float32
+
+    function SGD(lr::Float32)
+        new(lr)
+    end
 end
 
 

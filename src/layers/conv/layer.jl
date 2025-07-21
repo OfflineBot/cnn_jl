@@ -32,7 +32,7 @@ mutable struct Conv2d
         grad_bias = zeros(b_shape)
         padding_struct = Padding(padding)
 
-        return new(
+        new(
             kernel,         # kernel
             bias,           # bias
             nothing,        # input
@@ -53,6 +53,6 @@ function Conv2d(in_channel::Int, out_channel::Int, height::Int, width::Int, padd
     distr = Distributions.Uniform(-1.f0, 1.f0)
     kernel = rand(distr, in_channel, out_channel, height, width)
     bias = rand(distr, out_channel)
-    return Conv2d(kernel, bias, padding, stride, activation, optim)
+    Conv2d(kernel, bias, padding, stride, activation, optim)
 end
 

@@ -8,6 +8,6 @@ function forward!(layer::DenseLayer, input::Matrix{Float32})::Matrix{Float32}
     a = layer.activation.activation(z)
     layer.a = a
 
-    return a
+    a
 end
 

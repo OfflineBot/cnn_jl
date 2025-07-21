@@ -7,6 +7,6 @@ function backward!(layer::DenseLayer, delta::Matrix{Float32})::Matrix{Float32}
     layer.grad_bias .+= sum(delta, dims=1)
 
     new_delta = delta * layer.weight'
-    return new_delta 
+    new_delta 
 end
 

@@ -2,8 +2,6 @@
 
 import Distributions
 
-export DenseLayer
-
 mutable struct DenseLayer 
     # Shape: input, output
     weight::Matrix{Float32}
@@ -28,7 +26,7 @@ mutable struct DenseLayer
         b_shape = size(bias)
         grad_weight = zeros(Float32, w_shape)
         grad_bias = zeros(Float32, b_shape)
-        return new(
+        new(
             weight, 
             bias, 
             nothing, 
@@ -49,6 +47,6 @@ function DenseLayer(input_size::Int, output_size::Int, activation::Activation, o
     distr = Distributions.Uniform(-1.f0, 1.f0)
     weight::Matrix{Float32} = rand(distr, input_size, output_size)
     bias::Matrix{Float32} = rand(distr, 1, output_size)
-    return DenseLayer(weight, bias, activation, optimizer)
+    DenseLayer(weight, bias, activation, optimizer)
 end
 

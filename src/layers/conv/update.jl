@@ -1,5 +1,5 @@
 
-function update!(layer::Conv2d, optim::Optim)
+function update!(layer::Conv2d)
     update!(layer, layer.optim)
 end
 

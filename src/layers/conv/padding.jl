@@ -7,7 +7,7 @@ struct Padding
     right::Int
 
     function Padding(padding::Int)
-        return new(
+        new(
             padding,
             0, 
             0,
